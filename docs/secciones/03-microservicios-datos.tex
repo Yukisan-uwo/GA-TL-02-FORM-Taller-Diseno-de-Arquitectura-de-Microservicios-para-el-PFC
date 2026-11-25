@@ -1,3 +1,111 @@
-% Responsable: Mario. Delimitar responsabilidades, propietarios de datos y bases independientes.
 \section{Microservicios y propiedad de datos}
-\pendiente{completar esta sección}
+
+La descomposición del SGRA se plantea a partir de las
+responsabilidades de negocio identificadas en sus requisitos
+funcionales. Cada microservicio concentra las operaciones
+relacionadas con un dominio específico, evitando distribuir
+una misma responsabilidad entre servicios innecesariamente
+\cite{microsoft-domain-analysis}.
+
+\subsection{Delimitación de los microservicios}
+
+Se proponen siete microservicios para cubrir las
+funcionalidades del SGRA:
+
+\begin{itemize}
+
+    \item \textbf{Identidad y acceso:} administra las
+    cuentas de usuario, roles, permisos y mecanismos
+    de autenticación.
+
+    \item \textbf{Académico:} proporciona la información
+    de períodos, asignaturas, docentes, estudiantes y
+    matrículas mediante la integración con el SGA.
+
+    \item \textbf{Refuerzos:} gestiona las solicitudes,
+    programación de sesiones, reprogramaciones,
+    participantes, asistencia y resultados de la atención.
+
+    \item \textbf{Espacios:} controla la disponibilidad,
+    reserva y asignación de aulas y laboratorios para
+    las sesiones presenciales.
+
+    \item \textbf{Notificaciones:} gestiona los avisos
+    generados por los cambios en las solicitudes,
+    sesiones y reservas, incluyendo el registro del
+    resultado de los envíos.
+
+    \item \textbf{Seguimiento:} proporciona consultas,
+    indicadores y reportes para el personal de
+    coordinación académica.
+
+    \item \textbf{Administración:} gestiona los parámetros
+    generales del SGRA, los registros de auditoría y
+    la coordinación de las operaciones de respaldo.
+
+\end{itemize}
+
+\subsection{Propiedad e independencia de los datos}
+
+Se propone aplicar el patrón Database per Service,
+mediante el cual cada microservicio administra su
+propia base de datos y controla el acceso a su
+información \cite{microsoft-data-sovereignty}.
+
+Para mantener la compatibilidad con la base tecnológica
+del SGRA, se utilizará PostgreSQL como gestor de bases
+de datos. Cada servicio dispondrá de una base independiente
+y credenciales de acceso exclusivas.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Distribución de bases de datos}
+    \label{tab:bases-datos}
+    \small
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Microservicio} & \textbf{Base de datos} \\
+        \midrule
+        Identidad y acceso & \texttt{db\_identidad} \\
+        Académico & \texttt{db\_academico} \\
+        Refuerzos & \texttt{db\_refuerzos} \\
+        Espacios & \texttt{db\_espacios} \\
+        Notificaciones & \texttt{db\_notificaciones} \\
+        Seguimiento & \texttt{db\_seguimiento} \\
+        Administración & \texttt{db\_administracion} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Ningún microservicio podrá acceder directamente a la
+base de datos de otro. Cuando requiera información
+externa a su dominio, deberá obtenerla mediante una
+interfaz de comunicación o eventos.
+
+Los datos académicos tendrán como fuente de autoridad
+al SGA. Por su parte, el servicio de seguimiento
+mantendrá proyecciones de consulta sin modificar
+las solicitudes o sesiones originales.
+
+Esta distribución favorece el aislamiento de los datos
+y permite gestionar los servicios de manera independiente,
+aunque introduce la necesidad de coordinar los cambios
+que involucren distintos dominios.
+
+\subsection{Justificación del diseño}
+
+La separación del proceso de refuerzos respecto a la
+gestión de espacios y notificaciones permite que cada
+servicio evolucione según sus propias necesidades.
+
+Por ejemplo, un fallo en el envío de correos no debería
+revertir una solicitud de refuerzo registrada correctamente.
+Asimismo, las reservas deberán gestionarse desde el
+servicio de espacios para evitar asignaciones simultáneas
+sobre una misma aula o laboratorio.
+
+Estas decisiones contribuyen al cumplimiento de los
+requisitos de disponibilidad, integridad y rendimiento
+del SGRA, identificados como RNF01, RNF02 y RNF06.
+Su cumplimiento deberá comprobarse posteriormente
+durante la implementación y las pruebas.
