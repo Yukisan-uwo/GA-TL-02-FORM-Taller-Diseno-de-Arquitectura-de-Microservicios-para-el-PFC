@@ -1,3 +1,16 @@
 % Responsable: Joseph. Rutas, autenticación, autorización, rate limiting, endpoints y justificación.
 \section{API Gateway y comunicación síncrona}
-\pendiente{completar esta sección}
+\subsection{Diseño del API Gateway}
+
+El API Gateway será el punto de entrada del cliente web del SGRA.
+Recibirá las solicitudes por HTTPS y las enviará al microservicio
+correspondiente según la ruta y el método HTTP. Por ejemplo, una
+solicitud de refuerzo se dirige al servicio Refuerzos, mientras que
+una consulta de aulas disponibles se dirige al servicio Espacios.
+
+Para el diagrama C4 se proponen tres componentes del Gateway:
+el enrutador, el filtro de acceso y el filtro de control de tráfico.
+El enrutador dirige cada solicitud. El filtro de acceso valida el
+token en las rutas protegidas. El filtro de tráfico limita la
+cantidad de solicitudes que recibe el Gateway. Cada microservicio
+comprueba si el usuario tiene permiso sobre el recurso solicitado.
