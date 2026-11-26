@@ -90,3 +90,35 @@ para comprobar si la reserva se completó antes de volver a solicitarla.
 Las rutas \path|/interno/| son para la comunicación entre servicios.
 Una vez confirmado el cambio, el aviso al usuario se procesa mediante
 un evento que consume Notificaciones.
+
+\subsection{Selección de REST y relación con los RNF}
+
+Se propone REST sobre HTTPS con JSON para las solicitudes del cliente
+web y las llamadas síncronas entre microservicios. Las operaciones del
+SGRA consisten en consultar o modificar recursos como solicitudes,
+sesiones y reservas. Angular puede consumir estas respuestas JSON con
+su cliente HTTP, lo que facilita la integración con el navegador
+prevista en el RNF04 \cite{sgra-angular-http}.
+
+gRPC también permite realizar llamadas síncronas y definir contratos
+tipados con Protocol Buffers. Para usarlo desde el navegador habría que
+integrar gRPC-Web. Dado que las operaciones identificadas se resuelven
+con una petición y una respuesta, se propone mantener REST en ambos
+canales \cite{sgra-grpc-web}.
+
+\begin{itemize}
+    \item \textbf{RNF01, rendimiento.} Para la meta de responder en
+    un máximo de 5 segundos con hasta 100 usuarios concurrentes,
+    el Gateway asignará un tiempo límite a las llamadas internas.
+    Esta meta se comprobará con pruebas de carga de extremo a extremo.
+
+    \item \textbf{RNF02, disponibilidad.} Para la meta del 99,5\,\%
+    mensual se proponen réplicas del Gateway detrás de un balanceador
+    con comprobaciones de salud. El Gateway podrá devolver HTTP~503
+    ante una indisponibilidad temporal o HTTP~504 si el servicio
+    consultado supera el tiempo de espera \cite{sgra-http-semantics}.
+
+    \item \textbf{RNF05 y RNF06, auditoría e integridad.} Cada servicio
+    registrará las acciones críticas y verificará que el usuario tenga
+    permiso sobre el recurso antes de modificarlo.
+\end{itemize}
