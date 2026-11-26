@@ -1,0 +1,124 @@
+% Responsable: Joseph. Rutas, autenticación, autorización, rate limiting, endpoints y justificación.
+\section{API Gateway y comunicación síncrona}
+\subsection{Diseño del API Gateway}
+
+El API Gateway será el punto de entrada del cliente web del SGRA.
+Recibirá las solicitudes por HTTPS y las enviará al microservicio
+correspondiente según la ruta y el método HTTP. Por ejemplo, una
+solicitud de refuerzo se dirige al servicio Refuerzos, mientras que
+una consulta de aulas disponibles se dirige al servicio Espacios.
+
+Para el diagrama C4 se proponen tres componentes del Gateway:
+el enrutador, el filtro de acceso y el filtro de control de tráfico.
+El enrutador dirige cada solicitud. El filtro de acceso valida el
+token en las rutas protegidas. El filtro de tráfico limita la
+cantidad de solicitudes que recibe el Gateway. Cada microservicio
+comprueba si el usuario tiene permiso sobre el recurso solicitado.
+
+\subsection{Rutas del API Gateway}
+
+La Tabla~\ref{tab:rutas-gateway} muestra las principales solicitudes
+del cliente web y el microservicio que atiende cada una.
+
+\small
+\begin{longtable}{@{}p{.40\linewidth}p{.20\linewidth}p{.34\linewidth}@{}}
+\caption{Rutas principales del API Gateway del SGRA.}
+\label{tab:rutas-gateway}\\
+\toprule
+\textbf{Método y ruta} & \textbf{Servicio} & \textbf{Operación} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Método y ruta} & \textbf{Servicio} & \textbf{Operación} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+
+\texttt{POST} \path|/api/auth/login| &
+Identidad y acceso & Validar credenciales y emitir el token. \\
+
+\texttt{GET} \path|/api/asignaturas| &
+Académico & Consultar las asignaturas del período. \\
+
+\texttt{GET} \path|/api/solicitudes| &
+Refuerzos & Listar las solicitudes que puede ver el usuario. \\
+
+\texttt{POST} \path|/api/solicitudes| &
+Refuerzos & Registrar una solicitud de refuerzo. \\
+
+\texttt{POST} \path|/api/sesiones| &
+Refuerzos & Programar una sesión de refuerzo. \\
+
+\texttt{GET} \path|/api/sesiones/{id}| &
+Refuerzos & Consultar el detalle y el estado de una sesión. \\
+
+\texttt{PATCH} \path|/api/sesiones/{id}| &
+Refuerzos & Reprogramar una sesión. \\
+
+\texttt{PUT} \path|/api/sesiones/{id}/asistencia| &
+Refuerzos & Registrar o actualizar la lista de asistencia. \\
+
+\texttt{GET} \path|/api/espacios/disponibilidad| &
+Espacios & Consultar las aulas o laboratorios disponibles. \\
+
+\texttt{GET} \path|/api/reportes| &
+Seguimiento & Consultar los reportes de coordinación académica. \\
+
+\texttt{PATCH} \path|/api/admin/parametros| &
+Administración & Actualizar los parámetros generales del sistema. \\
+
+\end{longtable}
+\normalsize
+
+\subsection{Llamadas síncronas entre microservicios}
+
+\textbf{De Refuerzos a Académico.}
+Antes de guardar una solicitud, Refuerzos consulta
+\texttt{GET} \path|/interno/matriculas/vigentes|.
+La respuesta de Académico determina si el estudiante está matriculado
+en la asignatura para la que solicita el refuerzo.
+
+\textbf{De Refuerzos a Espacios.}
+Al programar o reprogramar una sesión presencial, Refuerzos usa
+\texttt{PUT} \path|/interno/reservas/{idSesion}| para pedir la reserva.
+Espacios comprueba la disponibilidad y responde si pudo reservar.
+Si se agota el tiempo de espera, el cambio queda pendiente.
+Refuerzos consulta \texttt{GET} \path|/interno/reservas/{idSesion}|
+para comprobar si la reserva se completó antes de volver a solicitarla.
+
+Las rutas \path|/interno/| son para la comunicación entre servicios.
+Una vez confirmado el cambio, el aviso al usuario se procesa mediante
+un evento que consume Notificaciones.
+
+\subsection{Selección de REST y relación con los RNF}
+
+Se propone REST sobre HTTPS con JSON para las solicitudes del cliente
+web y las llamadas síncronas entre microservicios. Las operaciones del
+SGRA consisten en consultar o modificar recursos como solicitudes,
+sesiones y reservas. Angular puede consumir estas respuestas JSON con
+su cliente HTTP, lo que facilita la integración con el navegador
+prevista en el RNF04 \cite{sgra-angular-http}.
+
+gRPC también permite realizar llamadas síncronas y definir contratos
+tipados con Protocol Buffers. Para usarlo desde el navegador habría que
+integrar gRPC-Web. Dado que las operaciones identificadas se resuelven
+con una petición y una respuesta, se propone mantener REST en ambos
+canales \cite{sgra-grpc-web}.
+
+\begin{itemize}
+    \item \textbf{RNF01, rendimiento.} Para la meta de responder en
+    un máximo de 5 segundos con hasta 100 usuarios concurrentes,
+    el Gateway asignará un tiempo límite a las llamadas internas.
+    Esta meta se comprobará con pruebas de carga de extremo a extremo.
+
+    \item \textbf{RNF02, disponibilidad.} Para la meta del 99,5\,\%
+    mensual se proponen réplicas del Gateway detrás de un balanceador
+    con comprobaciones de salud. El Gateway podrá devolver HTTP~503
+    ante una indisponibilidad temporal o HTTP~504 si el servicio
+    consultado supera el tiempo de espera \cite{sgra-http-semantics}.
+
+    \item \textbf{RNF05 y RNF06, auditoría e integridad.} Cada servicio
+    registrará las acciones críticas y verificará que el usuario tenga
+    permiso sobre el recurso antes de modificarlo.
+\end{itemize}
