@@ -17,12 +17,14 @@ comprueba si el usuario tiene permiso sobre el recurso solicitado.
 
 \subsection{Rutas del API Gateway}
 
-La Tabla~\ref{tab:rutas-gateway} muestra las principales solicitudes
-del cliente web y el microservicio que atiende cada una.
+La Tabla~\ref{tab:rutas-gateway} muestra qué servicio atiende cada
+ruta pública del cliente web. El asterisco identifica las rutas
+complementarias propuestas para detallar operaciones de los
+requisitos o de los componentes internos.
 
 \small
-\begin{longtable}{@{}p{.40\linewidth}p{.20\linewidth}p{.34\linewidth}@{}}
-\caption{Rutas principales del API Gateway del SGRA.}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{.43\linewidth}>{\raggedright\arraybackslash}p{.18\linewidth}>{\raggedright\arraybackslash}p{.33\linewidth}@{}}
+\caption{Rutas públicas del API Gateway del SGRA.}
 \label{tab:rutas-gateway}\\
 \toprule
 \textbf{Método y ruta} & \textbf{Servicio} & \textbf{Operación} \\
@@ -34,91 +36,162 @@ del cliente web y el microservicio que atiende cada una.
 \endhead
 \bottomrule
 \endlastfoot
-
 \texttt{POST} \path|/api/auth/login| &
 Identidad y acceso & Validar credenciales y emitir el token. \\
-
+\texttt{POST} \path|/api/auth/refresh|\textsuperscript{*} &
+Identidad y acceso & Renovar el token de acceso a partir de una sesión vigente. \\
+\texttt{POST} \path|/api/auth/logout|\textsuperscript{*} &
+Identidad y acceso & Cerrar la sesión e invalidar su credencial de renovación. \\
+\texttt{GET} \path|/api/usuarios| &
+Identidad y acceso & Consultar las cuentas locales. \\
+\texttt{POST} \path|/api/usuarios| &
+Identidad y acceso & Crear una cuenta local. \\
+\texttt{PATCH} \path|/api/usuarios/{id}|\textsuperscript{*} &
+Identidad y acceso & Actualizar los datos o el estado de una cuenta. \\
+\texttt{PATCH} \path|/api/usuarios/{id}/roles| &
+Identidad y acceso & Cambiar los roles asignados a una cuenta. \\
+\texttt{GET} \path|/api/roles|\textsuperscript{*} &
+Identidad y acceso & Consultar los roles y sus permisos locales. \\
+\texttt{POST} \path|/api/roles|\textsuperscript{*} &
+Identidad y acceso & Crear un rol local. \\
+\texttt{PATCH} \path|/api/roles/{id}|\textsuperscript{*} &
+Identidad y acceso & Actualizar un rol y sus permisos locales. \\
+\texttt{GET} \path|/api/periodos|\textsuperscript{*} &
+Académico & Consultar los períodos académicos. \\
 \texttt{GET} \path|/api/asignaturas| &
 Académico & Consultar las asignaturas del período. \\
-
 \texttt{GET} \path|/api/solicitudes| &
-Refuerzos & Listar las solicitudes que puede ver el usuario. \\
-
+Refuerzos & Consultar el estado de las solicitudes visibles para el usuario. \\
 \texttt{POST} \path|/api/solicitudes| &
-Refuerzos & Registrar una solicitud de refuerzo. \\
-
+Refuerzos & Registrar una solicitud individual o grupal. \\
+\texttt{PATCH} \path|/api/solicitudes/{id}| &
+Refuerzos & Cancelar una solicitud pendiente o registrar la decisión del docente. \\
+\texttt{GET} \path|/api/sesiones| &
+Refuerzos & Consultar el historial de sesiones realizadas y sus materiales. \\
 \texttt{POST} \path|/api/sesiones| &
-Refuerzos & Programar una sesión de refuerzo. \\
-
+Refuerzos & Programar fecha, horario, duración y modalidad de una sesión. \\
 \texttt{GET} \path|/api/sesiones/{id}| &
-Refuerzos & Consultar el detalle y el estado de una sesión. \\
-
+Refuerzos & Consultar el detalle actualizado de una sesión. \\
 \texttt{PATCH} \path|/api/sesiones/{id}| &
-Refuerzos & Reprogramar una sesión. \\
-
+Refuerzos & Proponer un nuevo horario para una sesión. \\
 \texttt{PUT} \path|/api/sesiones/{id}/asistencia| &
-Refuerzos & Registrar o actualizar la lista de asistencia. \\
-
+Refuerzos & Registrar la asistencia individual. \\
+\texttt{POST} \path|/api/sesiones/{id}/cierre| &
+Refuerzos & Cerrar la sesión académica y guardar observaciones, resultados y materiales. \\
+\texttt{POST} \path|/api/sesiones/{id}/respuesta| &
+Refuerzos & Aceptar o rechazar el nuevo horario propuesto. \\
+\texttt{GET} \path|/api/sesiones/{id}/materiales/{idMaterial}|\textsuperscript{*} &
+Refuerzos & Descargar un material de apoyo de la sesión. \\
 \texttt{GET} \path|/api/espacios/disponibilidad| &
-Espacios & Consultar las aulas o laboratorios disponibles. \\
-
+Espacios & Consultar aulas o laboratorios disponibles. \\
+\texttt{GET} \path|/api/reservas|\textsuperscript{*} &
+Espacios & Consultar las reservas y su estado para gestionarlas. \\
+\texttt{PATCH} \path|/api/reservas/{id}| &
+Espacios & Asignar, rechazar o reasignar una reserva de espacio. \\
+\texttt{PUT} \path|/api/notificaciones/configuracion-correo| &
+Notificaciones & Configurar la cuenta Gmail que se usa para enviar avisos. \\
 \texttt{GET} \path|/api/reportes| &
-Seguimiento & Consultar los reportes de coordinación académica. \\
-
+Seguimiento & Consultar el seguimiento académico y sus indicadores. \\
+\texttt{GET} \path|/api/reportes/exportar?formato=pdf| &
+Seguimiento & Generar el reporte en PDF o Excel con el parámetro \texttt{formato} (\texttt{pdf} o \texttt{xlsx}). \\
 \texttt{PATCH} \path|/api/admin/parametros| &
-Administración & Actualizar los parámetros generales del sistema. \\
-
+Administración & Actualizar los parámetros del refuerzo académico. \\
+\texttt{GET} \path|/api/admin/auditoria| &
+Administración & Consultar los registros de auditoría. \\
+\texttt{GET} \path|/api/admin/auditoria/exportar|\textsuperscript{*} &
+Administración & Generar un reporte administrativo de auditoría. \\
+\texttt{GET} \path|/api/admin/respaldos|\textsuperscript{*} &
+Administración & Consultar los respaldos disponibles. \\
+\texttt{POST} \path|/api/admin/respaldos| &
+Administración & Solicitar un respaldo del sistema. \\
+\texttt{POST} \path|/api/admin/respaldos/{id}/restauraciones|\textsuperscript{*} &
+Administración & Solicitar la restauración del respaldo seleccionado. \\
+\texttt{PUT} \path|/api/admin/identidad-visual| &
+Administración & Configurar la identidad visual institucional. \\
 \end{longtable}
 \normalsize
+
+Al modificar una solicitud, Refuerzos verifica el rol, el acceso
+al recurso y el estado actual. El estudiante puede cancelar su
+solicitud mientras esté pendiente. El docente puede registrar
+si la acepta o la rechaza. El cierre de una sesión académica
+registra sus resultados en Refuerzos. El cierre de la sesión de
+usuario corresponde a Identidad y acceso.
+
+La configuración de correo del RF13.5 se realiza por la ruta de
+administración de Notificaciones. El envío de avisos del RF14
+se activa mediante eventos, según la comunicación asíncrona.
 
 \subsection{Llamadas síncronas entre microservicios}
 
 \textbf{De Refuerzos a Académico.}
-Antes de guardar una solicitud, Refuerzos consulta
-\texttt{GET} \path|/interno/matriculas/vigentes|.
-La respuesta de Académico determina si el estudiante está matriculado
-en la asignatura para la que solicita el refuerzo.
+Antes de guardar una solicitud, Refuerzos llama a
+\texttt{GET} \path|/interno/matriculas/vigentes| para comprobar la
+matrícula del estudiante en la asignatura y el período correspondientes.
 
 \textbf{De Refuerzos a Espacios.}
-Al programar o reprogramar una sesión presencial, Refuerzos usa
-\texttt{PUT} \path|/interno/reservas/{idSesion}| para pedir la reserva.
-Espacios comprueba la disponibilidad y responde si pudo reservar.
-Si se agota el tiempo de espera, el cambio queda pendiente.
-Refuerzos consulta \texttt{GET} \path|/interno/reservas/{idSesion}|
-para comprobar si la reserva se completó antes de volver a solicitarla.
+Al programar o reprogramar una sesión presencial, Refuerzos solicita
+la reserva mediante \texttt{PUT} \path|/interno/reservas/{idSesion}|.
+Espacios comprueba la disponibilidad y devuelve el estado de la
+reserva, que puede quedar pendiente de gestión. Si se agota el tiempo
+de espera, Refuerzos conserva el estado pendiente y consulta
+\texttt{GET} \path|/interno/reservas/{idSesion}| antes de reenviar la
+petición. Refuerzos confirma el espacio de la sesión cuando Espacios
+confirma la reserva.
 
-Las rutas \path|/interno/| son para la comunicación entre servicios.
-Una vez confirmado el cambio, el aviso al usuario se procesa mediante
-un evento que consume Notificaciones.
+Las rutas \path|/interno/| se usan entre servicios. El gestor de
+espacios opera desde el cliente web mediante las rutas públicas de
+reservas que atiende el Gateway.
 
 \subsection{Selección de REST y relación con los RNF}
 
 Se propone REST sobre HTTPS con JSON para las solicitudes del cliente
-web y las llamadas síncronas entre microservicios. Las operaciones del
-SGRA consisten en consultar o modificar recursos como solicitudes,
-sesiones y reservas. Angular puede consumir estas respuestas JSON con
-su cliente HTTP, lo que facilita la integración con el navegador
-prevista en el RNF04 \cite{sgra-angular-http}.
+web y las llamadas síncronas entre microservicios. Angular puede
+consumir respuestas JSON con su cliente HTTP para consultar o modificar
+recursos como solicitudes, sesiones y reservas \cite{sgra-angular-http}.
 
-gRPC también permite realizar llamadas síncronas y definir contratos
-tipados con Protocol Buffers. Para usarlo desde el navegador habría que
-integrar gRPC-Web. Dado que las operaciones identificadas se resuelven
-con una petición y una respuesta, se propone mantener REST en ambos
-canales \cite{sgra-grpc-web}.
+gRPC también admite intercambios de petición y respuesta mediante
+contratos definidos con Protocol Buffers. Para usarlo desde el
+navegador habría que integrar gRPC-Web \cite{sgra-grpc-web}. El diseño
+adopta REST en ambos canales para usar el mismo esquema de métodos
+HTTP y mensajes JSON en el cliente y en las integraciones internas.
+Las metas de rendimiento y disponibilidad se comprobarán con pruebas
+del sistema.
 
 \begin{itemize}
-    \item \textbf{RNF01, rendimiento.} Para la meta de responder en
-    un máximo de 5 segundos con hasta 100 usuarios concurrentes,
-    el Gateway asignará un tiempo límite a las llamadas internas.
-    Esta meta se comprobará con pruebas de carga de extremo a extremo.
+    \item \textbf{RNF01, rendimiento.} El tiempo máximo de respuesta
+    es de 5 segundos con hasta 100 usuarios concurrentes y
+    10\,000 solicitudes registradas. El Gateway y los clientes
+    internos tendrán tiempos de espera acotados dentro del límite
+    de la petición. La meta se probará de extremo a extremo con Azure
+    como entorno de referencia provisional.
 
-    \item \textbf{RNF02, disponibilidad.} Para la meta del 99,5\,\%
-    mensual se proponen réplicas del Gateway detrás de un balanceador
-    con comprobaciones de salud. El Gateway podrá devolver HTTP~503
-    ante una indisponibilidad temporal o HTTP~504 si el servicio
-    consultado supera el tiempo de espera \cite{sgra-http-semantics}.
+    \item \textbf{RNF02, disponibilidad.} La disponibilidad mensual
+    mínima es de 99{,}5\,\%, excluyendo los mantenimientos programados
+    notificados con 24 horas de anticipación. Se proponen réplicas del
+    Gateway detrás de un balanceador con comprobaciones de salud.
+    El Gateway podrá responder HTTP~503 ante indisponibilidad temporal
+    o HTTP~504 si se agota el tiempo de espera del servicio consultado
+    \cite{sgra-http-semantics}.
 
-    \item \textbf{RNF05 y RNF06, auditoría e integridad.} Cada servicio
-    registrará las acciones críticas y verificará que el usuario tenga
-    permiso sobre el recurso antes de modificarlo.
+    \item \textbf{RNF03, usabilidad.} La interfaz mostrará estados y
+    errores comprensibles en las operaciones principales. Se evaluará
+    si los usuarios de cada rol completan sus tareas sin ayuda externa
+    y si el promedio de la escala SUS llega a 70 puntos.
+
+    \item \textbf{RNF04, compatibilidad.} Se comprobará el
+    funcionamiento en las dos últimas versiones estables de Chrome,
+    Firefox, Edge y Safari, sin complementos adicionales.
+
+    \item \textbf{RNF05, auditoría.} Los servicios registrarán el
+    100\,\% de las operaciones críticas con usuario, fecha y hora.
+    Administración conservará ese historial en un registro de solo
+    anexado. Los perfiles administrativos podrán consultar los
+    registros y generar reportes de auditoría.
+
+    \item \textbf{RNF06, integridad.} Cada servicio comprobará el
+    permiso sobre el recurso antes de cualquier modificación. Las
+    pruebas comprobarán el rechazo de modificaciones no autorizadas
+    y la correspondencia entre los datos almacenados y los reportes
+    generados, comparados en el mismo punto de corte.
 \end{itemize}
