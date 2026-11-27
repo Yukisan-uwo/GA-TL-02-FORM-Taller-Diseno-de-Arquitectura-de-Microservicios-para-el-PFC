@@ -1,16 +1,124 @@
 % Responsable: Mera. Consolidar datos, interfaces y RF con los aportes del equipo.
 \section{Tabla de servicios y trazabilidad funcional}
+
+La Tabla~\ref{tab:servicios} consolida, para cada microservicio, su
+responsabilidad, los datos que le pertenecen, las interfaces que expone
+y los requisitos funcionales que atiende. En la columna de eventos,
+\textbf{P} indica los eventos que el servicio publica y \textbf{C} los
+que consume. Las rutas \path|/api/| se exponen a través del API Gateway
+y las rutas \path|/interno/| se usan solo entre microservicios.
+
 \begin{landscape}
-\small
-\begin{longtable}{@{}p{0.14\linewidth}p{0.18\linewidth}p{0.16\linewidth}p{0.17\linewidth}p{0.17\linewidth}p{0.10\linewidth}@{}}
-\caption{Servicios, propiedad de datos, interfaces y cobertura funcional.}\\
+\footnotesize
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.10\linewidth}>{\raggedright\arraybackslash}p{0.17\linewidth}>{\raggedright\arraybackslash}p{0.15\linewidth}>{\raggedright\arraybackslash}p{0.23\linewidth}>{\raggedright\arraybackslash}p{0.17\linewidth}>{\raggedright\arraybackslash}p{0.09\linewidth}@{}}
+\caption{Servicios, propiedad de datos, interfaces y cobertura funcional.}
+\label{tab:servicios}\\
 \toprule
-Servicio & Responsabilidad & Datos propios & Endpoints & Eventos & RF cubiertos \\
+\textbf{Servicio} & \textbf{Responsabilidad} & \textbf{Datos propios} &
+\textbf{Endpoints principales} & \textbf{Eventos} & \textbf{RF} \\
 \midrule\endfirsthead
 \toprule
-Servicio & Responsabilidad & Datos propios & Endpoints & Eventos & RF cubiertos \\
+\textbf{Servicio} & \textbf{Responsabilidad} & \textbf{Datos propios} &
+\textbf{Endpoints principales} & \textbf{Eventos} & \textbf{RF} \\
 \midrule\endhead
-\multicolumn{6}{l}{Pendiente de consolidación.}\\
-\bottomrule
+\bottomrule\endlastfoot
+
+Identidad y acceso &
+Autenticar a los usuarios y administrar sus cuentas, roles y permisos. &
+Usuarios, credenciales, roles y permisos. &
+\texttt{POST} \path|/api/auth/login| \newline
+\texttt{GET}/\texttt{POST} \path|/api/usuarios| \newline
+\texttt{PATCH} \path|/api/usuarios/{id}/roles| &
+P: \texttt{AccionAuditada} &
+RF13.1 \\
+\midrule
+
+Académico &
+Proveer los datos académicos obtenidos del SGA. &
+Períodos, asignaturas, docentes, estudiantes y matrículas (copia del SGA). &
+\texttt{GET} \path|/api/asignaturas| \newline
+\texttt{GET} \path|/interno/matriculas/vigentes| &
+Ninguno &
+RF01, RF07 (apoyo) \\
+\midrule
+
+Refuerzos &
+Gestionar el ciclo de vida de las solicitudes y sesiones de refuerzo. &
+Solicitudes, sesiones, participantes, asistencia, observaciones, resultados y materiales. &
+\texttt{GET}/\texttt{POST} \path|/api/solicitudes| \newline
+\texttt{PATCH} \path|/api/solicitudes/{id}| \newline
+\texttt{GET}/\texttt{POST} \path|/api/sesiones| \newline
+\texttt{GET}/\texttt{PATCH} \path|/api/sesiones/{id}| \newline
+\texttt{PUT} \path|/api/sesiones/{id}/asistencia| \newline
+\texttt{POST} \path|/api/sesiones/{id}/cierre| \newline
+\texttt{POST} \path|/api/sesiones/{id}/respuesta| &
+P: \texttt{SolicitudRegistrada}, \texttt{SolicitudCancelada},
+\texttt{SolicitudEvaluada}, \texttt{SesionProgramada},
+\texttt{SesionReprogramada}, \texttt{ReprogramacionRespondida},
+\texttt{SesionCerrada}, \texttt{AccionAuditada} \newline
+C: \texttt{ReservaModificada} &
+RF01--RF10, RF15 \\
+\midrule
+
+Espacios &
+Controlar la disponibilidad y las reservas de aulas y laboratorios. &
+Espacios físicos, horarios y reservas. &
+\texttt{GET} \path|/api/espacios/disponibilidad| \newline
+\texttt{PATCH} \path|/api/reservas/{id}| \newline
+\texttt{GET}/\texttt{PUT} \path|/interno/reservas/{idSesion}| &
+P: \texttt{ReservaConfirmada}, \texttt{ReservaModificada},
+\texttt{AccionAuditada} &
+RF12 \\
+\midrule
+
+Notificaciones &
+Enviar avisos por correo ante cambios en los refuerzos. &
+Plantillas, configuración de la cuenta de correo y registro de envíos. &
+\texttt{PUT} \path|/api/notificaciones/configuracion-correo| &
+C: \texttt{SolicitudEvaluada}, \texttt{SolicitudCancelada},
+\texttt{SesionProgramada}, \texttt{SesionReprogramada},
+\texttt{ReprogramacionRespondida}, \texttt{ReservaModificada} &
+RF14, RF13.5 \\
+\midrule
+
+Seguimiento &
+Generar consultas, indicadores y reportes de coordinación. &
+Proyecciones de solicitudes, sesiones y asistencia (solo lectura). &
+\texttt{GET} \path|/api/reportes| \newline
+\texttt{GET} \path|/api/reportes/exportar?formato=pdf| (o \texttt{xlsx}) &
+C: eventos de solicitudes, sesiones y reservas &
+RF11 \\
+\midrule
+
+Administración &
+Gestionar parámetros, auditoría, respaldos e identidad visual del SGRA. &
+Parámetros, registros de auditoría, respaldos e identidad visual. &
+\texttt{PATCH} \path|/api/admin/parametros| \newline
+\texttt{GET} \path|/api/admin/auditoria| \newline
+\texttt{POST} \path|/api/admin/respaldos| \newline
+\texttt{PUT} \path|/api/admin/identidad-visual| &
+C: \texttt{AccionAuditada} &
+RF13.2, RF13.3, RF13.4, RF13.6 \\
+
 \end{longtable}
 \end{landscape}
+
+\subsection{Verificación de la trazabilidad}
+
+Con esta asignación, los quince requisitos funcionales y los seis
+subrequisitos del RF13 quedan atendidos por al menos un microservicio,
+y cada microservicio atiende al menos un requisito. El servicio
+Académico no cubre un requisito de forma exclusiva, pero es necesario
+para validar la matrícula al registrar una solicitud (RF01) y para
+programar sesiones con los estudiantes correctos (RF07).
+
+Refuerzos concentra once requisitos porque todos pertenecen al mismo
+ciclo de vida: solicitud, evaluación, programación, reprogramación,
+asistencia y cierre. Separar estas operaciones en varios servicios
+obligaría a coordinar cambios sobre los mismos datos entre bases
+distintas, lo que contradice la propiedad de datos definida en la
+sección de microservicios.
+
+El evento \texttt{AccionAuditada} permite que Administración reciba
+las operaciones críticas de los demás servicios sin acceder a sus
+bases de datos, lo que responde al RNF05.
