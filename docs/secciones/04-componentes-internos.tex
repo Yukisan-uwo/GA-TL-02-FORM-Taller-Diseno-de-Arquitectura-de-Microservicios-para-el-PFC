@@ -1,3 +1,169 @@
 % Responsable: Mera. Responsabilidades, relaciones y dependencias de cada microservicio.
 \section{Componentes internos}
-\pendiente{completar esta sección}
+
+El diagrama C4 de nivel 3 muestra las piezas internas de cada
+microservicio y la forma en que se relacionan. Para mantener un
+diseño uniforme, todos los servicios siguen una organización en
+capas: un componente de entrada que recibe las solicitudes, un
+componente de lógica que aplica las reglas del dominio y un
+componente de acceso a datos que es el único autorizado para
+consultar la base propia del servicio. Cuando un servicio necesita
+información de otro dominio, utiliza un cliente REST o un
+componente de mensajería, nunca la base de datos ajena
+\cite{microsoft-data-sovereignty}.
+
+\subsection{Componentes comunes}
+
+La Tabla~\ref{tab:componentes-comunes} resume los tipos de
+componentes que se repiten en los microservicios del SGRA.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Tipos de componentes utilizados en los microservicios.}
+    \label{tab:componentes-comunes}
+    \small
+    \begin{tabular}{@{}p{0.27\linewidth}p{0.66\linewidth}@{}}
+        \toprule
+        \textbf{Componente} & \textbf{Responsabilidad} \\
+        \midrule
+        Controlador REST & Expone los endpoints del servicio, valida
+        el formato de la solicitud y verifica el permiso del usuario
+        sobre el recurso. \\
+        Servicio de dominio & Aplica las reglas de negocio y coordina
+        las operaciones del caso de uso. \\
+        Repositorio & Lee y escribe en la base de datos propia del
+        microservicio. \\
+        Cliente REST interno & Invoca las rutas \path|/interno/| de otro
+        microservicio con un tiempo límite de espera. \\
+        Publicador de eventos & Emite los eventos del dominio después
+        de confirmar el cambio en la base propia. \\
+        Consumidor de eventos & Recibe los eventos de otros servicios y
+        actualiza la información local. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Componentes por microservicio}
+
+La Tabla~\ref{tab:componentes-servicio} detalla los componentes
+de cada microservicio y la responsabilidad específica de cada uno.
+
+\small
+\begin{longtable}{@{}p{0.17\linewidth}p{0.27\linewidth}p{0.48\linewidth}@{}}
+\caption{Componentes internos de cada microservicio del SGRA.}
+\label{tab:componentes-servicio}\\
+\toprule
+\textbf{Servicio} & \textbf{Componente} & \textbf{Responsabilidad} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Servicio} & \textbf{Componente} & \textbf{Responsabilidad} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+
+Identidad y acceso & Controlador de autenticación &
+Atiende \path|/api/auth/login| y la renovación de la sesión. \\
+ & Gestor de cuentas y roles &
+Administra usuarios, roles y permisos. \\
+ & Emisor de tokens &
+Genera y firma los tokens que valida el filtro de acceso del Gateway. \\
+ & Repositorio de identidad &
+Accede a \texttt{db\_identidad}. \\
+\midrule
+
+Académico & Controlador académico &
+Expone asignaturas, períodos y la ruta interna
+\path|/interno/matriculas/vigentes|. \\
+ & Sincronizador con el SGA &
+Obtiene periódicamente los datos académicos desde el SGA, que es
+la fuente de autoridad. \\
+ & Repositorio académico &
+Accede a \texttt{db\_academico}. \\
+\midrule
+
+Refuerzos & Controlador de solicitudes y sesiones &
+Atiende las rutas \path|/api/solicitudes| y \path|/api/sesiones|. \\
+ & Servicio de solicitudes &
+Registra solicitudes y verifica la matrícula antes de guardarlas. \\
+ & Servicio de sesiones &
+Programa, reprograma y registra asistencia y resultados. \\
+ & Cliente de Académico &
+Consulta la matrícula vigente del estudiante. \\
+ & Cliente de Espacios &
+Solicita y consulta las reservas de las sesiones presenciales. \\
+ & Publicador de eventos &
+Emite los cambios de solicitudes y sesiones. \\
+ & Repositorio de refuerzos &
+Accede a \texttt{db\_refuerzos}. \\
+\midrule
+
+Espacios & Controlador de espacios &
+Atiende \path|/api/espacios/disponibilidad| y las rutas internas
+\path|/interno/reservas/{idSesion}|. \\
+ & Gestor de reservas &
+Comprueba la disponibilidad e impide dos reservas sobre el mismo
+espacio y horario. \\
+ & Publicador de eventos &
+Emite la confirmación o liberación de reservas. \\
+ & Repositorio de espacios &
+Accede a \texttt{db\_espacios}. \\
+\midrule
+
+Notificaciones & Consumidor de eventos &
+Recibe los eventos de Refuerzos y Espacios. \\
+ & Generador de mensajes &
+Arma el aviso según el tipo de evento y el destinatario. \\
+ & Adaptador de correo &
+Envía el aviso al proveedor de correo. \\
+ & Repositorio de envíos &
+Registra el resultado de cada envío en \texttt{db\_notificaciones}. \\
+\midrule
+
+Seguimiento & Consumidor de eventos &
+Actualiza las proyecciones de consulta a partir de los eventos. \\
+ & Generador de reportes &
+Calcula indicadores y reportes de coordinación. \\
+ & Controlador de reportes &
+Atiende \path|/api/reportes|. \\
+ & Repositorio de proyecciones &
+Accede a \texttt{db\_seguimiento} sin modificar los datos originales. \\
+\midrule
+
+Administración & Controlador de administración &
+Atiende \path|/api/admin/parametros|. \\
+ & Gestor de parámetros &
+Mantiene los parámetros generales del SGRA. \\
+ & Registro de auditoría &
+Almacena las acciones críticas reportadas por los servicios. \\
+ & Coordinador de respaldos &
+Programa y registra las operaciones de respaldo. \\
+ & Repositorio de administración &
+Accede a \texttt{db\_administracion}. \\
+
+\end{longtable}
+\normalsize
+
+\subsection{Relaciones y dependencias}
+
+Las dependencias síncronas se limitan a las dos llamadas descritas
+en la sección del API Gateway: Refuerzos consulta a Académico para
+validar la matrícula y solicita a Espacios la reserva de las
+sesiones presenciales. Ambas se realizan desde clientes REST
+internos con tiempo límite, de modo que una demora en Académico o
+Espacios no bloquea indefinidamente al servicio de Refuerzos.
+
+Notificaciones y Seguimiento no son invocados directamente por
+otros servicios. Ambos dependen únicamente de los eventos que
+publican Refuerzos y Espacios, por lo que una caída temporal de
+cualquiera de ellos no impide registrar solicitudes ni programar
+sesiones; los eventos pendientes se procesan cuando el servicio
+se recupera. Identidad y acceso es utilizado por el filtro de acceso
+del Gateway, mientras que Administración recibe los registros de
+auditoría de los demás servicios.
+
+Esta organización reduce el acoplamiento entre dominios: los
+servicios centrales del proceso de refuerzo conservan su
+funcionamiento aunque fallen los servicios de apoyo, lo que
+contribuye a la disponibilidad planteada en el RNF02.
