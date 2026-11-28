@@ -1,3 +1,182 @@
-% Responsable: Roger. Eventos, productores, consumidores, mecanismo y consistencia ante fallos.
 \section{Comunicación asíncrona}
-\pendiente{completar esta sección}
+\subsection{Mecanismo y alcance}
+
+Propongo RabbitMQ mediante AMQP sobre TLS para distribuir eventos entre
+microservicios. Mantengo REST para las consultas y reservas que requieren
+una respuesta inmediata. Con los eventos desacoplo el registro del cambio
+de negocio de los avisos, las proyecciones y la auditoría centralizada.
+No espero el envío de correo para confirmar una solicitud.
+
+Elijo RabbitMQ porque necesito entregar cada cambio a varios consumidores
+independientes, con confirmaciones y reintentos por cola. No identifico en
+los requisitos una necesidad de conservar un registro de eventos reproducible
+a gran escala que justifique incorporar Kafka en este diseño. No fundamento
+la elección en mediciones comparativas que no he realizado.
+
+\subsection{Contrato y distribución de eventos}
+
+Defino un intercambio de tipo \textit{topic}, durable, llamado
+\texttt{sgra.eventos}. Utilizo el nombre exacto del evento como clave de
+enrutamiento y una cola durable independiente para cada consumidor:
+\texttt{q.notificaciones}, \texttt{q.seguimiento}, \texttt{q.refuerzos}
+y \texttt{q.auditoria}. Así evito que Notificaciones y Seguimiento compitan
+por una misma copia. Reservo una cola de errores y colas de reintento
+por consumidor.
+
+Defino el catálogo de la Tabla~\ref{tab:eventos-roger}. En las filas
+agrupadas mantengo cada nombre como un evento distinto.
+
+\small
+\begin{longtable}{@{}p{.29\linewidth}p{.13\linewidth}p{.23\linewidth}p{.25\linewidth}@{}}
+\caption{Contrato propuesto de eventos y suscriptores.}
+\label{tab:eventos-roger}\\
+\toprule
+\textbf{Evento} & \textbf{Publicador} & \textbf{Consumidores} & \textbf{Contenido de negocio y RF}\\
+\midrule\endfirsthead
+\toprule
+\textbf{Evento} & \textbf{Publicador} & \textbf{Consumidores} & \textbf{Contenido de negocio y RF}\\
+\midrule\endhead
+\bottomrule\endlastfoot
+\texttt{SolicitudRegistrada} &
+Refuerzos & Seguimiento &
+Solicitud, asignatura, período, participantes y estado; RF01, RF11.\\
+\midrule
+\texttt{SolicitudCancelada}, \texttt{SolicitudEvaluada} &
+Refuerzos & Notificaciones y Seguimiento &
+Solicitud, decisión, motivo y destinatarios; RF03, RF06, RF11, RF14.\\
+\midrule
+\texttt{SesionProgramada}, \texttt{SesionReprogramada} &
+Refuerzos & Notificaciones y Seguimiento &
+Sesión, horario, modalidad, participantes, estado de reserva y versión de propuesta; RF07, RF08, RF11, RF14.\\
+\midrule
+\texttt{ReprogramacionRespondida} &
+Refuerzos & Notificaciones y Seguimiento &
+Sesión, participante, versión de propuesta y aceptación o rechazo; RF15, RF11, RF14.\\
+\midrule
+\texttt{SesionCerrada} &
+Refuerzos & Seguimiento &
+Sesión, asistencia final, resultados y referencias de materiales; RF09, RF10, RF11.\\
+\midrule
+\texttt{ReservaConfirmada}, \texttt{ReservaModificada} &
+Espacios & Refuerzos, Notificaciones y Seguimiento &
+Reserva, sesión, espacio, horario, estado y motivo; RF12, RF14, RF11.\\
+\midrule
+\texttt{AccionAuditada} &
+Cada servicio al ejecutar una operación crítica &
+Administración &
+Actor, acción, recurso, resultado, fecha y hora; RF13.3, RNF05.\\
+\end{longtable}
+\normalsize
+
+Incluyo en todos los mensajes \texttt{eventId} (UUID), \texttt{eventType},
+\texttt{schemaVersion}, \texttt{occurredAt} (UTC),
+\texttt{producer}, \texttt{aggregateId}, \texttt{aggregateVersion},
+\texttt{correlationId} y \texttt{payload}.
+Versiono por entidad dentro de su servicio propietario; no comparo
+versiones de una reserva con versiones de una sesión.
+Incluyo los datos mínimos para cada consumidor y referencias a materiales,
+no sus archivos. Excluyo contraseñas, tokens y credenciales de Gmail.
+Para avisos incluyo los destinatarios autorizados y los datos necesarios
+para construir el mensaje, sin dar acceso a bases ajenas.
+
+Mantengo \texttt{AccionAuditada} como nombre acordado, pero lo interpreto
+como el registro local de una acción crítica pendiente de consolidación;
+no lo confundo con una confirmación de almacenamiento en Administración.
+Incluyo también las operaciones críticas de Administración, sin generar
+otro evento por el simple consumo de auditoría y crear un ciclo.
+
+\subsection{Publicación fiable y recuperación}
+
+Propongo una \textit{outbox} en la base propia de cada publicador.
+Guardo el cambio de negocio, su evento y el registro de auditoría aplicable
+en la misma transacción local. Si falla esa transacción, no confirmo
+la operación. Con un publicador en segundo plano leo los pendientes,
+publico mensajes persistentes y marco su envío después del
+\textit{publisher confirm}. Activo \texttt{mandatory} y trato los mensajes
+devueltos sin ruta como fallos; una confirmación del broker no demuestra
+que un consumidor haya ejecutado su tarea.
+Apoyo esta distinción en la documentación de RabbitMQ%
+\footnote{\url{https://www.rabbitmq.com/docs/confirms}}.
+
+Si el broker cae, conservo los pendientes en la outbox y reintento;
+no descarto auditoría ni eventos de negocio por agotar un contador.
+Propongo colas de quórum sobre tres nodos para tolerar la pérdida de
+un nodo, siempre que conserve la mayoría. No considero esta topología
+una garantía automática de disponibilidad.
+
+En cada consumidor guardo \texttt{eventId} en una bandeja de entrada
+con restricción única, junto con el cambio local, en una misma transacción.
+Envío el reconocimiento manual solo después de confirmar esa transacción.
+Con ello planteo entrega al menos una vez y procesamiento local idempotente,
+no una garantía de entrega exactamente una vez.
+
+Como política inicial configurable propongo tres reintentos diferidos
+(10, 30 y 120 segundos) para fallos transitorios, sin bucles de
+reencolado inmediato. Después conservo el mensaje en la cola de errores,
+genero una alerta y permito su reproceso controlado con el mismo
+\texttt{eventId}. Para mensajes inválidos utilizo directamente esa cola.
+Antes de reconocer el original aseguro la transferencia confirmada
+a la cola de reintento o errores.
+
+En Notificaciones primero registro el trabajo de envío de forma idempotente
+y después lo procesa el adaptador Gmail. Si Gmail acepta un correo y
+se pierde la respuesta, puedo producir un duplicado al reintentar;
+no prometo envío exactamente una vez. Registro ese estado incierto y
+evito que el fallo del correo revierta la operación académica.
+
+\subsection{Consistencia entre dominios}
+
+Mantengo Espacios como autoridad de reservas y Refuerzos como autoridad
+de sesiones. Consumo tanto \texttt{ReservaConfirmada} como
+\texttt{ReservaModificada} en Refuerzos: así cubro la confirmación posterior
+de una reserva pendiente. Compruebo sesión, versión de reserva y horario
+antes de aplicarla; ignoro una confirmación antigua que no corresponde
+a la programación vigente. No interpreto una reserva pendiente como
+espacio confirmado.
+
+Cuando reprogramo o cancelo, debo reconciliar también la reserva anterior.
+Propongo utilizar el \texttt{PUT} interno existente con un estado solicitado
+explícito para actualizar o liberar la reserva, de forma idempotente por
+sesión. Ante una respuesta incierta consulto el \texttt{GET} interno antes
+de repetir. Mantengo el estado pendiente hasta reconciliar ambos dominios,
+sin transacciones distribuidas ni escrituras directas sobre bases ajenas.
+
+Para proyecciones conservo la versión aplicada por entidad. Si recibo
+un duplicado lo ignoro; si detecto un salto, retengo la actualización
+y recupero los eventos faltantes del historial de outbox conservado
+por el productor mediante un procedimiento controlado. No supongo orden
+global ni utilizo marcas de tiempo como sustituto de ese control.
+
+Para RF09 proyecto la asistencia final desde \texttt{SesionCerrada}.
+Limito inicialmente los reportes de asistencia a sesiones cerradas;
+no presento esa proyección como seguimiento de asistencia en tiempo real.
+Para exportar reportes del RF11 defino un corte mediante versiones por
+entidad y espero a que la proyección alcance ese corte, sin incluir
+versiones posteriores en la misma instantánea. Si faltan eventos o no
+puedo establecer el corte, marco el reporte como pendiente y no lo
+presento como actualizado. Dejo la implementación de ese protocolo
+como condición para comprobar la correspondencia exigida por RNF06.
+
+\subsection{Justificación y límites de validación}
+
+\begin{itemize}
+\item Para RNF01 retiro el envío de correo y la actualización de reportes
+del camino de respuesta, pero mantengo el coste de la transacción local
+y la outbox. Debo comprobar los 5 segundos con 100 usuarios concurrentes
+y 10\,000 solicitudes; no uso el tamaño del histórico como tasa de eventos.
+\item Para RNF02 aíslo consumidores y conservo pendientes durante fallos.
+Debo medir la disponibilidad mensual del 99,5\,\% y probar la recuperación
+del broker y de cada consumidor.
+\item Para RNF05 registro localmente cada operación crítica antes de
+confirmarla y consolido la auditoría mediante reintentos. Propongo permisos
+de solo anexado, sin eliminación mediante la aplicación, y control de
+acceso administrativo. Debo comprobar cobertura, conservación y recuperación.
+\item Para RNF06 aplico autorización en cada servicio, deduplicación,
+versionado y cortes explícitos de reportes. No atribuyo al broker la
+validación de permisos de negocio.
+\end{itemize}
+
+Presento un diseño, no una implementación ni una ejecución experimental.
+Dejo pendientes las pruebas de caída antes y después de publicar,
+confirmación perdida, duplicados, eventos desordenados, reserva obsoleta,
+recuperación de cola de errores y comparación de reportes al mismo corte.
