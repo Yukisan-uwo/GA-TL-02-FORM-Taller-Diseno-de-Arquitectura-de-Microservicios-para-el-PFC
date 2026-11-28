@@ -1,0 +1,807 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" type="device" version="32.7.4">
+  <diagram name="01 · Integro los canales del SGRA" id="page-0">
+    <mxGraphModel dx="1800" dy="1250" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1800" pageHeight="1250" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" value="01 · Integro los canales del SGRA" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=29;align=left;fontStyle=1;">
+          <mxGeometry x="30" y="15" width="1740" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="Propongo este diseño del SGRA · C4 nivel 3 · Componentes y relaciones" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=18;align=left;">
+          <mxGeometry x="30" y="65" width="1740" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="Distingo: línea azul continua = síncrona REST/HTTPS; naranja discontinua = asíncrona AMQP/TLS; gris = llamada interna; verde = SQL a la base propia. Las flechas indican quién inicia la interacción." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=16;align=left;">
+          <mxGeometry x="30" y="1195" width="1740" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" value="«Clientes»&#10;Web y móvil&#10;Consumo la API pública" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="30" y="125" width="220" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" value="«API Gateway» · Mantengo una entrada única" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fafcfe;strokeColor=#8499aa;dashed=1;verticalAlign=top;align=left;fontStyle=1;spacingTop=10;">
+          <mxGeometry x="320" y="110" width="1250" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" value="«Componente»&#10;Control de tráfico&#10;Limito solicitudes" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="350" y="150" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" value="«Componente»&#10;Filtro de acceso&#10;Valido tokens firmados" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="790" y="150" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" value="«Componente»&#10;Enrutador&#10;Selecciono servicio y ruta" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1230" y="150" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" value="HTTPS" edge="1" parent="1" source="n5" target="n7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#245a81;fontColor=#245a81;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n11" value="Paso la solicitud" edge="1" parent="1" source="n7" target="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" value="Tras validar" edge="1" parent="1" source="n8" target="n9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n13" value="«Microservicio»&#10;Identidad y acceso&#10;Administro cuentas y tokens&#10;Detalle: vista 3" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="30" y="390" width="220" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="n14" value="«Base de datos PostgreSQL»&#10;db_identidad" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="30" y="600" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n15" value="Solo mi repositorio" edge="1" parent="1" source="n13" target="n14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n16" value="REST" edge="1" parent="1" source="n9" target="n13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#245a81;fontColor=#245a81;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1380" y="305" />
+              <mxPoint x="140" y="305" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n17" value="«Microservicio»&#10;Académico&#10;Consulto datos del SGA&#10;Detalle: vista 3" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="280" y="390" width="220" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="n18" value="«Base de datos PostgreSQL»&#10;db_academico" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="280" y="600" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n19" value="Solo mi repositorio" edge="1" parent="1" source="n17" target="n18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n20" value="" edge="1" parent="1" source="n9" target="n17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#245a81;fontColor=#245a81;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1380" y="305" />
+              <mxPoint x="390" y="305" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n21" value="«Microservicio»&#10;Refuerzos&#10;Gestiono solicitudes y sesiones&#10;Detalle: vista 2" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="530" y="390" width="220" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="n22" value="«Base de datos PostgreSQL»&#10;db_refuerzos" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="530" y="600" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n23" value="Solo mi repositorio" edge="1" parent="1" source="n21" target="n22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n24" value="" edge="1" parent="1" source="n9" target="n21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#245a81;fontColor=#245a81;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1380" y="305" />
+              <mxPoint x="640" y="305" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n25" value="«Microservicio»&#10;Espacios&#10;Gestiono reservas&#10;Detalle: vista 3" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="780" y="390" width="220" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="n26" value="«Base de datos PostgreSQL»&#10;db_espacios" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="780" y="600" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n27" value="Solo mi repositorio" edge="1" parent="1" source="n25" target="n26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n28" value="" edge="1" parent="1" source="n9" target="n25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#245a81;fontColor=#245a81;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1380" y="305" />
+              <mxPoint x="890" y="305" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n29" value="«Microservicio»&#10;Notificaciones&#10;Envío avisos por Gmail&#10;Detalle: vista 4" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1030" y="390" width="220" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="n30" value="«Base de datos PostgreSQL»&#10;db_notificaciones" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="1030" y="600" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n31" value="Solo mi repositorio" edge="1" parent="1" source="n29" target="n30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n32" value="" edge="1" parent="1" source="n9" target="n29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#245a81;fontColor=#245a81;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1380" y="305" />
+              <mxPoint x="1140" y="305" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n33" value="«Microservicio»&#10;Seguimiento&#10;Genero reportes&#10;Detalle: vista 4" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1280" y="390" width="220" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="n34" value="«Base de datos PostgreSQL»&#10;db_seguimiento" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="1280" y="600" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n35" value="Solo mi repositorio" edge="1" parent="1" source="n33" target="n34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n36" value="" edge="1" parent="1" source="n9" target="n33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#245a81;fontColor=#245a81;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1380" y="305" />
+              <mxPoint x="1390" y="305" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n37" value="«Microservicio»&#10;Administración&#10;Administro y audito&#10;Detalle: vista 4" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1530" y="390" width="220" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="n38" value="«Base de datos PostgreSQL»&#10;db_administracion" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="1530" y="600" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n39" value="Solo mi repositorio" edge="1" parent="1" source="n37" target="n38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n40" value="REST" edge="1" parent="1" source="n9" target="n37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#245a81;fontColor=#245a81;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1380" y="305" />
+              <mxPoint x="1640" y="305" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n41" value="Enruto /api/ por REST/HTTPS; verifico permisos dentro de cada servicio." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=18;align=left;fontStyle=1;">
+          <mxGeometry x="30" y="270" width="1100" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="n42" value="Valido matrícula por REST: Refuerzos → Académico. Solicito o consulto reservas por REST: Refuerzos → Espacios." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=18;align=left;fontStyle=1;">
+          <mxGeometry x="980" y="710" width="770" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n43" value="«Infraestructura de mensajería · RabbitMQ»&#10;Propongo sgra.eventos (topic durable) y colas de quórum sobre tres nodos&#10;Distribuyo copias independientes; no comparto una cola entre consumidores distintos" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fff3df;strokeColor=#b86a17;fontSize=20;">
+          <mxGeometry x="30" y="875" width="1720" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="n44" value="Publico cambios" edge="1" parent="1" source="n21" target="n43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;exitX=0;exitY=0.8;entryX=0.282;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="515" y="510" />
+              <mxPoint x="515" y="790" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n45" value="Publico cambios" edge="1" parent="1" source="n25" target="n43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;exitX=0;exitY=0.8;entryX=0.427;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="765" y="510" />
+              <mxPoint x="765" y="790" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n46" value="Propongo un publicador de AccionAuditada en cada servicio para sus operaciones críticas, sin ciclos por el consumo de auditoría." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=17;align=left;">
+          <mxGeometry x="980" y="805" width="770" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="n47" value="Desde RabbitMQ distribuyo: reservas → Refuerzos; avisos → Notificaciones; cambios → Seguimiento; AccionAuditada → Administración." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=18;align=left;fontStyle=1;">
+          <mxGeometry x="30" y="1010" width="1720" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="n48" value="Conservo outbox y bandejas de entrada en la base propia. Mantengo colas de reintento y errores por consumidor.&#10;Presento un diseño propuesto, no servicios desplegados ni disponibilidad o rendimiento medidos." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=18;align=left;">
+          <mxGeometry x="30" y="1080" width="1720" height="75" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="02 · Detallo Refuerzos y sus dependencias" id="page-1">
+    <mxGraphModel dx="1800" dy="1250" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1800" pageHeight="1250" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" value="02 · Detallo Refuerzos y sus dependencias" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=29;align=left;fontStyle=1;">
+          <mxGeometry x="30" y="15" width="1740" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="Propongo este diseño del SGRA · C4 nivel 3 · Componentes y relaciones" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=18;align=left;">
+          <mxGeometry x="30" y="65" width="1740" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="Distingo: línea azul continua = síncrona REST/HTTPS; naranja discontinua = asíncrona AMQP/TLS; gris = llamada interna; verde = SQL a la base propia. Las flechas indican quién inicia la interacción." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=16;align=left;">
+          <mxGeometry x="30" y="1195" width="1740" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" value="«Microservicio Refuerzos» · RF01–RF10 y RF15" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fafcfe;strokeColor=#8499aa;dashed=1;verticalAlign=top;align=left;fontStyle=1;spacingTop=10;">
+          <mxGeometry x="30" y="125" width="1190" height="1025" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" value="«Componente»&#10;Controlador REST&#10;Valido formato y permiso" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="80" y="200" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" value="«Componente»&#10;Servicio de solicitudes&#10;Registro, cancelo y evalúo" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="80" y="380" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" value="«Componente»&#10;Servicio de sesiones&#10;Programo, reprogramo y cierro" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="520" y="380" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" value="«Componente»&#10;Cliente de Académico&#10;Compruebo matrícula vigente" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="80" y="560" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" value="«Componente»&#10;Cliente de Espacios&#10;Solicito o reconcilio reservas" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="520" y="560" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n11" value="«Componente»&#10;Repositorio de refuerzos&#10;Guardo negocio y outbox juntos" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="80" y="770" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" value="«Componente»&#10;Publicador outbox&#10;Publico pendientes y confirmo" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="520" y="770" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n13" value="«Componente»&#10;Consumidor de reservas&#10;Deduplico y compruebo versión" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="870" y="770" width="290" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n14" value="«Base de datos PostgreSQL»&#10;db_refuerzos" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="80" y="995" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n15" value="«Servicio externo a este límite»&#10;Académico&#10;GET /interno/matriculas/vigentes" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1320" y="200" width="430" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="n16" value="«Servicio externo a este límite»&#10;Espacios&#10;GET / PUT /interno/reservas/{idSesion}" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1320" y="440" width="430" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="n17" value="«RabbitMQ»&#10;sgra.eventos + q.refuerzos&#10;Recibo ReservaConfirmada y&#10;ReservaModificada" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fff3df;strokeColor=#b86a17;">
+          <mxGeometry x="1320" y="800" width="430" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="n18" value="Solicitudes" edge="1" parent="1" source="n6" target="n7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n19" value="Sesiones" edge="1" parent="1" source="n6" target="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="245" />
+              <mxPoint x="670" y="245" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n20" value="Valido" edge="1" parent="1" source="n7" target="n9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n21" value="Reservo" edge="1" parent="1" source="n8" target="n10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n22" value="Persisto" edge="1" parent="1" source="n7" target="n11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="50" y="425" />
+              <mxPoint x="50" y="815" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n23" value="Persisto" edge="1" parent="1" source="n8" target="n11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="425" />
+              <mxPoint x="450" y="720" />
+              <mxPoint x="230" y="720" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n24" value="SQL" edge="1" parent="1" source="n11" target="n14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n25" value="Leo outbox / marco envío" edge="1" parent="1" source="n12" target="n11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="670" y="925" />
+              <mxPoint x="420" y="925" />
+              <mxPoint x="420" y="815" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n26" value="REST/HTTPS · síncrona" edge="1" parent="1" source="n9" target="n15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#245a81;fontColor=#245a81;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="605" />
+              <mxPoint x="440" y="185" />
+              <mxPoint x="1535" y="185" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n27" value="REST/HTTPS · síncrona" edge="1" parent="1" source="n10" target="n16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#245a81;fontColor=#245a81;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1240" y="605" />
+              <mxPoint x="1240" y="505" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n28" value="AMQP/TLS · publico cambios" edge="1" parent="1" source="n12" target="n17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="670" y="960" />
+              <mxPoint x="1280" y="960" />
+              <mxPoint x="1280" y="890" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n29" value="AMQP/TLS" edge="1" parent="1" source="n17" target="n13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n30" value="Aplico solo reserva vigente" edge="1" parent="1" source="n13" target="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1015" y="705" />
+              <mxPoint x="850" y="705" />
+              <mxPoint x="850" y="425" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n31" value="Registro SolicitudRegistrada, SolicitudCancelada, SolicitudEvaluada, SesionProgramada, SesionReprogramada,&#10;ReprogramacionRespondida, SesionCerrada y AccionAuditada. No confirmo un espacio mientras su reserva siga pendiente." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=17;align=left;">
+          <mxGeometry x="470" y="1010" width="720" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n32" value="Conservo inbox y versión aplicada mediante el repositorio. Ante resultado REST incierto, consulto antes de repetir." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=18;align=left;">
+          <mxGeometry x="1260" y="1010" width="490" height="110" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="03 · Detallo Identidad, Académico y Espacios" id="page-2">
+    <mxGraphModel dx="1800" dy="1250" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1800" pageHeight="1250" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" value="03 · Detallo Identidad, Académico y Espacios" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=29;align=left;fontStyle=1;">
+          <mxGeometry x="30" y="15" width="1740" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="Propongo este diseño del SGRA · C4 nivel 3 · Componentes y relaciones" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=18;align=left;">
+          <mxGeometry x="30" y="65" width="1740" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="Distingo: línea azul continua = síncrona REST/HTTPS; naranja discontinua = asíncrona AMQP/TLS; gris = llamada interna; verde = SQL a la base propia. Las flechas indican quién inicia la interacción." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=16;align=left;">
+          <mxGeometry x="30" y="1195" width="1740" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" value="«Microservicio» Identidad y acceso · RF13.1" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fafcfe;strokeColor=#8499aa;dashed=1;verticalAlign=top;align=left;fontStyle=1;spacingTop=10;">
+          <mxGeometry x="30" y="130" width="550" height="970" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" value="«Componente»&#10;Controlador de autenticación&#10;Atiendo login, refresh y logout" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="70" y="205" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" value="«Componente»&#10;Gestor de cuentas y roles&#10;Administro usuarios, roles y permisos" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="70" y="370" width="470" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" value="«Componente»&#10;Repositorio propio&#10;Persisto datos y outbox / inbox" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="70" y="700" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" value="«Base de datos PostgreSQL»&#10;db_identidad" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="70" y="1000" width="470" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" value="«Componente»&#10;Publicador de auditoría&#10;Leo outbox y emito AccionAuditada" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="70" y="850" width="470" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n11" value="Delego" edge="1" parent="1" source="n6" target="n7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" value="Persisto" edge="1" parent="1" source="n7" target="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="50" y="420" />
+              <mxPoint x="50" y="748" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n13" value="SQL" edge="1" parent="1" source="n8" target="n9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="748" />
+              <mxPoint x="560" y="1040" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n14" value="Leo outbox" edge="1" parent="1" source="n10" target="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n15" value="«Componente» Emisor de tokens&#10;Firmo tokens para el filtro del Gateway" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="70" y="530" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n16" value="Emito credenciales" edge="1" parent="1" source="n7" target="n15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n17" value="Consulto / registro" edge="1" parent="1" source="n15" target="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n18" value="«Microservicio» Académico · RF01 y RF07 (apoyo)" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fafcfe;strokeColor=#8499aa;dashed=1;verticalAlign=top;align=left;fontStyle=1;spacingTop=10;">
+          <mxGeometry x="625" y="130" width="550" height="970" as="geometry" />
+        </mxCell>
+        <mxCell id="n19" value="«Componente»&#10;Controlador académico&#10;Expongo asignaturas y matrícula vigente" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="665" y="205" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n20" value="«Componente»&#10;Sincronizador con el SGA&#10;Actualizo mi copia académica" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="665" y="370" width="470" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n21" value="«Componente»&#10;Repositorio propio&#10;Persisto datos y outbox / inbox" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="665" y="700" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n22" value="«Base de datos PostgreSQL»&#10;db_academico" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="665" y="1000" width="470" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n23" value="«Componente»&#10;Publicador de auditoría&#10;Leo outbox y emito AccionAuditada" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="665" y="850" width="470" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n24" value="Delego" edge="1" parent="1" source="n19" target="n20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n25" value="Persisto" edge="1" parent="1" source="n20" target="n21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="645" y="420" />
+              <mxPoint x="645" y="748" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n26" value="SQL" edge="1" parent="1" source="n21" target="n22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1155" y="748" />
+              <mxPoint x="1155" y="1040" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n27" value="Leo outbox" edge="1" parent="1" source="n23" target="n21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n28" value="«Componente» Adaptador del SGA&#10;Propongo una API HTTPS autenticada&#10;Debo validar su contrato disponible" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="665" y="530" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n29" value="Obtengo datos" edge="1" parent="1" source="n20" target="n28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n30" value="Consulto / registro" edge="1" parent="1" source="n28" target="n21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n31" value="«Sistema externo» SGA · Propongo REST/HTTPS" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#eeeeee;strokeColor=#777777;fontSize=16;">
+          <mxGeometry x="665" y="1120" width="470" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="n32" value="" edge="1" parent="1" source="n28" target="n31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#245a81;fontColor=#245a81;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=1;entryY=0.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1170" y="577" />
+              <mxPoint x="1170" y="1145" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n33" value="«Microservicio» Espacios · RF12" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fafcfe;strokeColor=#8499aa;dashed=1;verticalAlign=top;align=left;fontStyle=1;spacingTop=10;">
+          <mxGeometry x="1220" y="130" width="550" height="970" as="geometry" />
+        </mxCell>
+        <mxCell id="n34" value="«Componente»&#10;Controlador de espacios&#10;Expongo disponibilidad y reservas" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1260" y="205" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n35" value="«Componente»&#10;Gestor de reservas&#10;Valido disponibilidad y evito solapamientos" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1260" y="370" width="470" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n36" value="«Componente»&#10;Repositorio propio&#10;Persisto datos y outbox / inbox" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1260" y="700" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n37" value="«Base de datos PostgreSQL»&#10;db_espacios" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="1260" y="1000" width="470" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n38" value="«Componente»&#10;Publicador de auditoría&#10;Leo outbox y emito AccionAuditada" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1260" y="850" width="470" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n39" value="Delego" edge="1" parent="1" source="n34" target="n35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n40" value="Persisto" edge="1" parent="1" source="n35" target="n36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1240" y="420" />
+              <mxPoint x="1240" y="748" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n41" value="SQL" edge="1" parent="1" source="n36" target="n37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1750" y="748" />
+              <mxPoint x="1750" y="1040" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n42" value="Leo outbox" edge="1" parent="1" source="n38" target="n36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n43" value="«Componente» Publicador de eventos&#10;Publico ReservaConfirmada y ReservaModificada&#10;por AMQP/TLS hacia sgra.eventos" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1260" y="530" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n44" value="Registro en outbox" edge="1" parent="1" source="n35" target="n43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n45" value="Consulto / registro" edge="1" parent="1" source="n43" target="n36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="04 · Detallo Notificaciones, Seguimiento y Administración" id="page-3">
+    <mxGraphModel dx="1800" dy="1250" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1800" pageHeight="1250" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" value="04 · Detallo Notificaciones, Seguimiento y Administración" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=29;align=left;fontStyle=1;">
+          <mxGeometry x="30" y="15" width="1740" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="Propongo este diseño del SGRA · C4 nivel 3 · Componentes y relaciones" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=18;align=left;">
+          <mxGeometry x="30" y="65" width="1740" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="Distingo: línea azul continua = síncrona REST/HTTPS; naranja discontinua = asíncrona AMQP/TLS; gris = llamada interna; verde = SQL a la base propia. Las flechas indican quién inicia la interacción." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=16;align=left;">
+          <mxGeometry x="30" y="1195" width="1740" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" value="«Microservicio» Notificaciones · RF14 y RF13.5" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fafcfe;strokeColor=#8499aa;dashed=1;verticalAlign=top;align=left;fontStyle=1;spacingTop=10;">
+          <mxGeometry x="30" y="130" width="550" height="970" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" value="«Componente»&#10;Consumidor + controlador de configuración&#10;Consumo q.notificaciones / configuro Gmail" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="70" y="205" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" value="«Componente»&#10;Generador de mensajes&#10;Deduplico y registro el trabajo de envío" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="70" y="370" width="470" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" value="«Componente»&#10;Repositorio propio&#10;Persisto datos y outbox / inbox" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="70" y="700" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" value="«Base de datos PostgreSQL»&#10;db_notificaciones" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="70" y="1000" width="470" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" value="«Componente»&#10;Publicador de auditoría&#10;Leo outbox y emito AccionAuditada" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="70" y="850" width="470" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n11" value="Delego" edge="1" parent="1" source="n6" target="n7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" value="Persisto" edge="1" parent="1" source="n7" target="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="50" y="420" />
+              <mxPoint x="50" y="748" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n13" value="SQL" edge="1" parent="1" source="n8" target="n9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="748" />
+              <mxPoint x="560" y="1040" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n14" value="Leo outbox" edge="1" parent="1" source="n10" target="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n15" value="«Componente» Adaptador de correo&#10;Propongo Gmail por SMTP sobre TLS&#10;Registro respuesta e incertidumbre de envío" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="70" y="530" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n16" value="Envío diferido" edge="1" parent="1" source="n7" target="n15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n17" value="Consulto / registro" edge="1" parent="1" source="n15" target="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n18" value="«Microservicio» Seguimiento · RF11" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fafcfe;strokeColor=#8499aa;dashed=1;verticalAlign=top;align=left;fontStyle=1;spacingTop=10;">
+          <mxGeometry x="625" y="130" width="550" height="970" as="geometry" />
+        </mxCell>
+        <mxCell id="n19" value="«Componente»&#10;Consumidor + controlador de reportes&#10;Consumo q.seguimiento / atiendo consultas" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="665" y="205" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n20" value="«Componente»&#10;Proyector y generador de reportes&#10;Aplico versiones y genero PDF o Excel" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="665" y="370" width="470" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n21" value="«Componente»&#10;Repositorio propio&#10;Persisto datos y outbox / inbox" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="665" y="700" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n22" value="«Base de datos PostgreSQL»&#10;db_seguimiento" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="665" y="1000" width="470" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n23" value="«Componente»&#10;Publicador de auditoría&#10;Leo outbox y emito AccionAuditada" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="665" y="850" width="470" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n24" value="Delego" edge="1" parent="1" source="n19" target="n20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n25" value="Persisto" edge="1" parent="1" source="n20" target="n21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="645" y="420" />
+              <mxPoint x="645" y="748" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n26" value="SQL" edge="1" parent="1" source="n21" target="n22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1155" y="748" />
+              <mxPoint x="1155" y="1040" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n27" value="Leo outbox" edge="1" parent="1" source="n23" target="n21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n28" value="«Componente» Control de corte&#10;Espero las versiones requeridas&#10;No exporto como actualizado si faltan eventos" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="665" y="530" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n29" value="Controlo consistencia" edge="1" parent="1" source="n20" target="n28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n30" value="Consulto / registro" edge="1" parent="1" source="n28" target="n21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n31" value="«Microservicio» Administración · RF13.2–RF13.4 y RF13.6" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fafcfe;strokeColor=#8499aa;dashed=1;verticalAlign=top;align=left;fontStyle=1;spacingTop=10;">
+          <mxGeometry x="1220" y="130" width="550" height="970" as="geometry" />
+        </mxCell>
+        <mxCell id="n32" value="«Componente»&#10;Controlador + consumidor de auditoría&#10;Atiendo API / consumo q.auditoria" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1260" y="205" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n33" value="«Componente»&#10;Parámetros, identidad visual y respaldos&#10;Configuro y coordino operaciones por servicio" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1260" y="370" width="470" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n34" value="«Componente»&#10;Repositorio propio&#10;Persisto datos y outbox / inbox" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1260" y="700" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n35" value="«Base de datos PostgreSQL»&#10;db_administracion" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e9f3ec;strokeColor=#3b7252;fontSize=15;">
+          <mxGeometry x="1260" y="1000" width="470" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n36" value="«Componente»&#10;Publicador de auditoría&#10;Leo outbox y emito AccionAuditada" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1260" y="850" width="470" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n37" value="Delego" edge="1" parent="1" source="n32" target="n33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n38" value="Persisto" edge="1" parent="1" source="n33" target="n34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1240" y="420" />
+              <mxPoint x="1240" y="748" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n39" value="SQL" edge="1" parent="1" source="n34" target="n35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#3b7252;fontColor=#3b7252;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1750" y="748" />
+              <mxPoint x="1750" y="1040" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n40" value="Leo outbox" edge="1" parent="1" source="n36" target="n34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n41" value="«Componente» Registro de auditoría&#10;Deduplico y guardo solo por anexado&#10;No genero ciclos al consumir AccionAuditada" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1260" y="530" width="470" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n42" value="Registro acciones" edge="1" parent="1" source="n33" target="n41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n43" value="Consulto / registro" edge="1" parent="1" source="n41" target="n34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#666666;fontColor=#666666;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n44" value="Recibo desde RabbitMQ por AMQP/TLS (asíncrona): avisos, proyecciones y auditoría, respectivamente. Reconozco después del commit local." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=17;align=left;">
+          <mxGeometry x="30" y="1120" width="1720" height="55" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="05 · Distribuyo eventos sin compartir consumidores" id="page-4">
+    <mxGraphModel dx="1800" dy="1250" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1800" pageHeight="1250" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" value="05 · Distribuyo eventos sin compartir consumidores" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=29;align=left;fontStyle=1;">
+          <mxGeometry x="30" y="15" width="1740" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="Propongo este diseño del SGRA · C4 nivel 3 · Componentes y relaciones" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=18;align=left;">
+          <mxGeometry x="30" y="65" width="1740" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="Distingo: línea azul continua = síncrona REST/HTTPS; naranja discontinua = asíncrona AMQP/TLS; gris = llamada interna; verde = SQL a la base propia. Las flechas indican quién inicia la interacción." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=16;align=left;">
+          <mxGeometry x="30" y="1195" width="1740" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" value="«Publicador de Refuerzos»&#10;Leo mi outbox transaccional&#10;SolicitudRegistrada&#10;SolicitudCancelada&#10;SolicitudEvaluada&#10;SesionProgramada&#10;SesionReprogramada&#10;SesionCerrada&#10;ReprogramacionRespondida" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fontSize=17;">
+          <mxGeometry x="30" y="135" width="510" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" value="«Publicador de Espacios»&#10;Leo mi outbox transaccional&#10;ReservaConfirmada&#10;ReservaModificada" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="30" y="475" width="510" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" value="«Publicadores de auditoría»&#10;Incluyo los siete servicios&#10;Identidad, Académico, Refuerzos, Espacios,&#10;Notificaciones, Seguimiento y Administración&#10;Emito AccionAuditada por operación crítica" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="30" y="790" width="510" height="185" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" value="«RabbitMQ · topic exchange»&#10;sgra.eventos&#10;Enruto por nombre exacto del evento&#10;Publico con mandatory + confirm&#10;Propongo colas durables de quórum&#10;No espero a los consumidores" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fff3df;strokeColor=#b86a17;">
+          <mxGeometry x="640" y="440" width="440" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" value="AMQP/TLS" edge="1" parent="1" source="n5" target="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="585" y="260" />
+              <mxPoint x="585" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n10" value="AMQP/TLS" edge="1" parent="1" source="n6" target="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n11" value="AMQP/TLS" edge="1" parent="1" source="n7" target="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="585" y="880" />
+              <mxPoint x="585" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n12" value="«Cola propia»&#10;q.refuerzos" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fff3df;strokeColor=#b86a17;">
+          <mxGeometry x="1170" y="155" width="245" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n13" value="«Componente»&#10;Consumidor de Refuerzos&#10;Consumo ambos eventos de reserva" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1480" y="145" width="285" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n14" value="AMQP/TLS" edge="1" parent="1" source="n8" target="n12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1120" y="565" />
+              <mxPoint x="1120" y="203" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n15" value="Entrego" edge="1" parent="1" source="n12" target="n13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n16" value="«Cola propia»&#10;q.notificaciones" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fff3df;strokeColor=#b86a17;">
+          <mxGeometry x="1170" y="390" width="245" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n17" value="«Componente»&#10;Consumidor de Notificaciones&#10;Consumo cambios con aviso y ambas reservas" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1480" y="380" width="285" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n18" value="AMQP/TLS" edge="1" parent="1" source="n8" target="n16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1120" y="565" />
+              <mxPoint x="1120" y="438" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n19" value="Entrego" edge="1" parent="1" source="n16" target="n17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n20" value="«Cola propia»&#10;q.seguimiento" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fff3df;strokeColor=#b86a17;">
+          <mxGeometry x="1170" y="625" width="245" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n21" value="«Componente»&#10;Consumidor de Seguimiento&#10;Consumo cambios de solicitudes, sesiones y reservas" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1480" y="615" width="285" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n22" value="AMQP/TLS" edge="1" parent="1" source="n8" target="n20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1120" y="565" />
+              <mxPoint x="1120" y="673" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n23" value="Entrego" edge="1" parent="1" source="n20" target="n21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n24" value="«Cola propia»&#10;q.auditoria" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=#fff3df;strokeColor=#b86a17;">
+          <mxGeometry x="1170" y="860" width="245" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n25" value="«Componente»&#10;Consumidor de Administración&#10;Consumo solo AccionAuditada" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;">
+          <mxGeometry x="1480" y="850" width="285" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n26" value="AMQP/TLS" edge="1" parent="1" source="n8" target="n24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1120" y="565" />
+              <mxPoint x="1120" y="908" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n27" value="Entrego" edge="1" parent="1" source="n24" target="n25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontFamily=Helvetica;fontSize=15;strokeWidth=2;strokeColor=#b86a17;fontColor=#b86a17;labelBackgroundColor=#ffffff;dashed=1;dashPattern=8 5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n28" value="Conservo los nombres del catálogo de eventos y distribuyo una copia por cola suscrita, no una copia compartida entre dominios." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=18;align=left;fontStyle=1;">
+          <mxGeometry x="30" y="1020" width="1730" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="n29" value="Deduplico por eventId y confirmo después de guardar inbox y cambio local. Ante fallos transitorios reintento a 10, 30 y 120 s.&#10;Conservo mensajes inválidos o agotados en la cola de errores del consumidor; aseguro la transferencia antes de reconocer el original." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=18;fillColor=#eaf2f8;strokeColor=#245a81;spacing=9;fillColor=none;strokeColor=none;fontSize=18;align=left;">
+          <mxGeometry x="30" y="1090" width="1730" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

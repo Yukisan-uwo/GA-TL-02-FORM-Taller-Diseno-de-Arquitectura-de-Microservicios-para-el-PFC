@@ -1,10 +1,57 @@
-% Responsable: Roger. Explicar la integración del diseño y actualizar la figura final.
 \section{Arquitectura propuesta}
+
+Integro el diseño en cinco vistas del archivo
+\path|docs/diagramas/c4-nivel-3.drawio|: canales generales, componentes
+de Refuerzos, componentes de Identidad, Académico y Espacios, componentes
+de apoyo y distribución de eventos. Mantengo una base PostgreSQL
+independiente por servicio y el API Gateway como entrada única de los
+clientes web y móvil. Diferencio llamadas internas, SQL, REST síncrono
+y AMQP asíncrono mediante la leyenda del diagrama.
+
+Propongo los componentes de outbox, consumo idempotente y control de
+versiones que detallo en mi sección de comunicación asíncrona. Para
+integrar el SGA propongo una API HTTPS cuyo contrato debo comprobar;
+para el correo propongo Gmail mediante SMTP sobre TLS. Para respaldos
+mantengo la coordinación por servicio, sin dar acceso a una base ajena.
+No presento estas decisiones como componentes ya implementados.
+
+Incluyo a continuación las cinco vistas de la exportación PDF.
+Para revisar componentes y conectores con mayor detalle, utilizo
+también el PDF independiente en \path|docs/diagramas/c4-nivel-3.pdf|.
+
 \IfFileExists{diagramas/c4-nivel-3.pdf}{
-  \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\linewidth]{diagramas/c4-nivel-3.pdf}
-  \caption{Diagrama C4 de nivel 3 del SGRA.}
-  \label{fig:c4-nivel-3}
+  \clearpage
+  \begin{landscape}
+  \begin{figure}[p]
+    \centering
+    \includegraphics[page=1,width=\linewidth,height=.83\textheight,keepaspectratio]{diagramas/c4-nivel-3.pdf}
+    \caption{Integro los canales del SGRA.}
+    \label{fig:c4-nivel-3}
   \end{figure}
-}{\pendiente{incorporar la exportación del diagrama integrado}}
+  \clearpage
+  \begin{figure}[p]
+    \centering
+    \includegraphics[page=2,width=\linewidth,height=.83\textheight,keepaspectratio]{diagramas/c4-nivel-3.pdf}
+    \caption{Detallo Refuerzos y sus dependencias.}
+  \end{figure}
+  \clearpage
+  \begin{figure}[p]
+    \centering
+    \includegraphics[page=3,width=\linewidth,height=.83\textheight,keepaspectratio]{diagramas/c4-nivel-3.pdf}
+    \caption{Detallo Identidad, Académico y Espacios.}
+  \end{figure}
+  \clearpage
+  \begin{figure}[p]
+    \centering
+    \includegraphics[page=4,width=\linewidth,height=.83\textheight,keepaspectratio]{diagramas/c4-nivel-3.pdf}
+    \caption{Detallo Notificaciones, Seguimiento y Administración.}
+  \end{figure}
+  \clearpage
+  \begin{figure}[p]
+    \centering
+    \includegraphics[page=5,width=\linewidth,height=.83\textheight,keepaspectratio]{diagramas/c4-nivel-3.pdf}
+    \caption{Distribuyo los eventos mediante colas independientes.}
+  \end{figure}
+  \clearpage
+  \end{landscape}
+}{\textit{Debo incorporar la exportación PDF del diagrama para visualizar estas vistas.}}
